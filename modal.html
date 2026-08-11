@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+<meta charset="UTF-8">
+<title>Vantage — Modal</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap');
+
+:root{
+  --ink:        #101418;
+  --surface:    #171C21;
+  --surface-2:  #1D232A;
+  --line:       #2B333B;
+  --fog:        #8A96A3;
+  --paper:      #E8ECF0;
+  --blue:       #4C8DFF;
+  --blue-dim:   #4C8DFF22;
+  --steel:      #6E7F91;
+  --mint:       #3ECF8E;
+  --error:      #F2545B;
+
+  --font-display: 'Open Sans', sans-serif;
+  --font-body: 'Open Sans', sans-serif;
+  --font-mono: 'JetBrains Mono', monospace;
+
+  --sp-1: 4px;  --sp-2: 8px;  --sp-3: 12px; --sp-4: 16px;
+  --sp-5: 24px; --sp-6: 32px; --sp-7: 48px; --sp-8: 64px;
+
+  --radius-sm: 6px;
+  --radius-md: 10px;
+  --radius-lg: 16px;
+}
+
+*{ box-sizing:border-box; }
+html,body{ margin:0; padding:0; }
+body{
+  background:var(--ink);
+  color:var(--paper);
+  font-family:var(--font-body);
+  line-height:1.55;
+  padding:var(--sp-8) var(--sp-6);
+}
+.wrap{ max-width:640px; margin:0 auto; }
+h1{ font-family:var(--font-display); font-weight:700; margin:0; font-size:32px; }
+.eyebrow{
+  font-family:var(--font-mono); font-size:12px; letter-spacing:.08em;
+  color:var(--fog); text-transform:uppercase; margin-bottom:var(--sp-2);
+}
+p.lede{ color:var(--fog); margin:var(--sp-3) 0 0; font-size:15px; }
+section{ margin-top:var(--sp-7); }
+.group-label{ font-family:var(--font-mono); font-size:12px; color:var(--steel); margin-bottom:var(--sp-3); }
+
+/* Buttons (design-system.html pattern) */
+.btn-row{ display:flex; flex-wrap:wrap; gap:var(--sp-3); }
+.btn{
+  font-family:var(--font-body); font-size:14px; font-weight:600; cursor:pointer;
+  border-radius:var(--radius-sm); padding:10px 18px; border:1px solid transparent;
+  outline:none; transition:filter .15s ease, box-shadow .15s ease;
+}
+.btn:hover{ filter:brightness(1.15); }
+.btn:focus-visible{ box-shadow:0 0 0 3px var(--blue-dim); }
+.btn-primary{ background:var(--blue); color:#fff; }
+.btn-secondary{ background:transparent; color:var(--paper); border-color:var(--line); }
+.btn-ghost{ background:transparent; color:var(--fog); }
+.btn[disabled]{ opacity:.35; cursor:not-allowed; filter:none; }
+
+/* ---------- Modal ---------- */
+.modal-overlay{
+  position:fixed; inset:0; z-index:100;
+  background:rgba(16,20,24,.72);
+  backdrop-filter:blur(6px); -webkit-backdrop-filter:blur(6px);
+  display:flex; align-items:center; justify-content:center; padding:var(--sp-5);
+  opacity:0; pointer-events:none;
+  transition:opacity .15s ease;
+}
+.modal-overlay.is-open{ opacity:1; pointer-events:auto; }
+
+.modal{
+  background:var(--surface); border:1px solid var(--line); border-radius:var(--radius-lg);
+  padding:var(--sp-5); max-width:420px; width:100%; position:relative;
+  box-shadow:0 24px 60px rgba(0,0,0,.5);
+  transform:translateY(8px);
+  transition:transform .15s ease;
+}
+.modal-overlay.is-open .modal{ transform:translateY(0); }
+
+.modal-close{
+  position:absolute; top:var(--sp-4); right:var(--sp-4);
+  width:28px; height:28px; border-radius:var(--radius-sm); border:1px solid transparent;
+  background:transparent; color:var(--fog);
+  display:flex; align-items:center; justify-content:center;
+  cursor:pointer; outline:none;
+  transition:background .15s ease, color .15s ease, box-shadow .15s ease;
+}
+.modal-close svg{ width:14px; height:14px; }
+.modal-close:hover{ background:var(--surface-2); color:var(--paper); }
+.modal-close:focus-visible{ box-shadow:0 0 0 3px var(--blue-dim); }
+.modal-close[disabled]{ opacity:.35; cursor:not-allowed; }
+
+.modal-icon{
+  width:36px; height:36px; border-radius:50%; display:flex; align-items:center; justify-content:center;
+  margin-bottom:var(--sp-4);
+}
+.modal-icon svg{ width:18px; height:18px; }
+.modal-icon.error{ background:#F2545B22; color:var(--error); }
+
+.modal-title{ font-family:var(--font-display); font-weight:700; font-size:24px; margin:0 0 var(--sp-3); padding-right:var(--sp-6); }
+.modal-body{ font-family:var(--font-body); font-size:15px; color:var(--fog); margin:0; }
+
+.modal-actions{ display:flex; justify-content:flex-end; gap:var(--sp-3); margin-top:var(--sp-5); }
+
+/* Static state preview for the close button */
+.state-preview-row{ display:flex; align-items:center; gap:var(--sp-4); background:var(--surface); border:1px solid var(--line); border-radius:var(--radius-md); padding:var(--sp-4); }
+.state-preview{ display:flex; flex-direction:column; align-items:center; gap:var(--sp-2); }
+.state-preview .modal-close{ position:static; }
+.state-preview span{ font-family:var(--font-mono); font-size:11px; color:var(--steel); }
+
+.state-caption{ margin-top:var(--sp-2); font-family:var(--font-mono); font-size:11px; color:var(--steel); }
+
+footer{ margin-top:var(--sp-8); padding-top:var(--sp-5); border-top:1px solid var(--line); color:var(--fog); font-size:12px; font-family:var(--font-mono); }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <div class="eyebrow">Vantage · Component</div>
+  <h1>Modal</h1>
+  <p class="lede">Built from existing Vantage tokens — surface panel, large radius, and the primary/secondary button patterns from design-system.html — with a blurred dark overlay. UI copy is English per the Vantage language rule, even though this was requested in Hebrew.</p>
+
+  <section>
+    <div class="group-label">Triggers</div>
+    <div class="btn-row">
+      <button class="btn btn-secondary" onclick="openModal('modal-basic')">Open basic modal</button>
+      <button class="btn btn-secondary" onclick="openModal('modal-confirm')">Open confirmation modal</button>
+      <button class="btn btn-secondary" onclick="openModal('modal-error')">Open error modal</button>
+    </div>
+  </section>
+
+  <section>
+    <div class="group-label">Close button states</div>
+    <div class="state-preview-row">
+      <div class="state-preview">
+        <button class="modal-close" aria-label="Close">
+          <svg viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><path d="M1 1l12 12M13 1L1 13"/></svg>
+        </button>
+        <span>Default</span>
+      </div>
+      <div class="state-preview">
+        <button class="modal-close" aria-label="Close" disabled>
+          <svg viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><path d="M1 1l12 12M13 1L1 13"/></svg>
+        </button>
+        <span>Disabled</span>
+      </div>
+    </div>
+    <div class="state-caption">Hover and focus (Tab) are live on every close button above — try them on the open modals.</div>
+  </section>
+
+</div>
+
+<!-- Basic modal: title + body + close -->
+<div class="modal-overlay" id="modal-basic" onclick="if(event.target===this) closeModal('modal-basic')">
+  <div class="modal" role="dialog" aria-modal="true" aria-labelledby="modal-basic-title">
+    <button class="modal-close" aria-label="Close" onclick="closeModal('modal-basic')">
+      <svg viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><path d="M1 1l12 12M13 1L1 13"/></svg>
+    </button>
+    <h2 id="modal-basic-title" class="modal-title">Sync complete</h2>
+    <p class="modal-body">Your health data has been synced successfully. All metrics are now up to date across your devices.</p>
+  </div>
+</div>
+
+<!-- Confirmation modal: title + body + close + two actions -->
+<div class="modal-overlay" id="modal-confirm" onclick="if(event.target===this) closeModal('modal-confirm')">
+  <div class="modal" role="dialog" aria-modal="true" aria-labelledby="modal-confirm-title">
+    <button class="modal-close" aria-label="Close" onclick="closeModal('modal-confirm')">
+      <svg viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><path d="M1 1l12 12M13 1L1 13"/></svg>
+    </button>
+    <h2 id="modal-confirm-title" class="modal-title">Discard changes?</h2>
+    <p class="modal-body">You have unsaved changes to this profile. If you leave now, they will be lost.</p>
+    <div class="modal-actions">
+      <button class="btn btn-secondary" onclick="closeModal('modal-confirm')">Cancel</button>
+      <button class="btn btn-primary" onclick="closeModal('modal-confirm')">Confirm</button>
+    </div>
+  </div>
+</div>
+
+<!-- Error modal: icon + title + body + close + two actions -->
+<div class="modal-overlay" id="modal-error" onclick="if(event.target===this) closeModal('modal-error')">
+  <div class="modal" role="dialog" aria-modal="true" aria-labelledby="modal-error-title">
+    <button class="modal-close" aria-label="Close" onclick="closeModal('modal-error')">
+      <svg viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><path d="M1 1l12 12M13 1L1 13"/></svg>
+    </button>
+    <div class="modal-icon error">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v6M12 16.5v.01"/></svg>
+    </div>
+    <h2 id="modal-error-title" class="modal-title">Sync failed</h2>
+    <p class="modal-body">We couldn't reach your device. Check the connection and try again.</p>
+    <div class="modal-actions">
+      <button class="btn btn-secondary" onclick="closeModal('modal-error')">Dismiss</button>
+      <button class="btn btn-primary" onclick="closeModal('modal-error')">Retry</button>
+    </div>
+  </div>
+</div>
+
+<footer>
+  Vantage Design System — modal.html. Built from existing tokens only (color, type, spacing, radius) and the button patterns in design-system.html.
+</footer>
+
+<script>
+  function openModal(id){ document.getElementById(id).classList.add('is-open'); }
+  function closeModal(id){ document.getElementById(id).classList.remove('is-open'); }
+  document.addEventListener('keydown', function(e){
+    if(e.key === 'Escape'){
+      document.querySelectorAll('.modal-overlay.is-open').forEach(function(o){ o.classList.remove('is-open'); });
+    }
+  });
+</script>
+</body>
+</html>

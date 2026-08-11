@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+<meta charset="UTF-8">
+<title>Vantage — Design System</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap');
+
+:root{
+  --ink:        #101418;
+  --surface:    #171C21;
+  --surface-2:  #1D232A;
+  --line:       #2B333B;
+  --fog:        #8A96A3;
+  --paper:      #E8ECF0;
+  --blue:       #4C8DFF;
+  --blue-dim:   #4C8DFF22;
+  --steel:      #6E7F91;
+  --mint:       #3ECF8E;
+  --amber:      #F2A33D;
+  --error:      #F2545B;
+
+  --font-display: 'Open Sans', sans-serif;
+  --font-body: 'Open Sans', sans-serif;
+  --font-mono: 'JetBrains Mono', monospace;
+
+  --sp-1: 4px;  --sp-2: 8px;  --sp-3: 12px; --sp-4: 16px;
+  --sp-5: 24px; --sp-6: 32px; --sp-7: 48px; --sp-8: 64px;
+
+  --radius-sm: 6px;
+  --radius-md: 10px;
+  --radius-lg: 16px;
+}
+
+*{ box-sizing:border-box; }
+html,body{ margin:0; padding:0; }
+body{
+  background:var(--ink);
+  color:var(--paper);
+  font-family:var(--font-body);
+  line-height:1.55;
+  padding:var(--sp-8) var(--sp-6);
+}
+.wrap{ max-width:1040px; margin:0 auto; }
+
+h1,h2,h3{ font-family:var(--font-display); font-weight:700; margin:0; }
+.mono{ font-family:var(--font-mono); }
+.eyebrow{
+  font-family:var(--font-mono); font-size:12px; letter-spacing:.08em;
+  color:var(--fog); text-transform:uppercase; margin-bottom:var(--sp-2);
+}
+section{ margin-top:var(--sp-8); padding-top:var(--sp-7); border-top:1px solid var(--line); }
+section:first-of-type{ border-top:none; padding-top:0; }
+p.lede{ color:var(--fog); max-width:560px; margin:var(--sp-3) 0 0; font-size:15px; }
+
+/* ---------- Hero ---------- */
+.hero{ display:flex; flex-direction:column; gap:var(--sp-5); }
+.hero h1{ font-size:40px; }
+.hero .tag{ color:var(--fog); font-size:16px; margin:0; }
+.signal-strip{ width:100%; height:64px; overflow:hidden; border:1px solid var(--line); border-radius:var(--radius-md); background:var(--surface); }
+.signal-strip svg{ width:100%; height:100%; display:block; }
+.signal-path{
+  fill:none; stroke:var(--blue); stroke-width:2;
+  stroke-dasharray:6 460; stroke-dashoffset:0;
+  animation:travel 4.5s linear infinite;
+}
+@keyframes travel{ to{ stroke-dashoffset:-466; } }
+
+/* ---------- Color tokens ---------- */
+.swatch-grid{ display:grid; grid-template-columns:repeat(auto-fill,minmax(150px,1fr)); gap:var(--sp-4); margin-top:var(--sp-5); }
+.swatch{ border:1px solid var(--line); border-radius:var(--radius-md); overflow:hidden; background:var(--surface); }
+.swatch-color{ height:72px; }
+.swatch-info{ padding:var(--sp-3); }
+.swatch-name{ font-size:13px; font-weight:600; }
+.swatch-hex{ font-family:var(--font-mono); font-size:12px; color:var(--fog); margin-top:2px; }
+.swatch-use{ font-size:12px; color:var(--fog); margin-top:var(--sp-2); }
+
+/* ---------- Type scale ---------- */
+.type-row{ display:flex; align-items:baseline; gap:var(--sp-5); padding:var(--sp-4) 0; border-bottom:1px solid var(--line); }
+.type-row:last-child{ border-bottom:none; }
+.type-label{ font-family:var(--font-mono); font-size:11px; color:var(--fog); width:110px; flex-shrink:0; }
+.type-sample.display{ font-family:var(--font-display); font-weight:700; }
+.type-sample.body{ font-family:var(--font-body); }
+.type-sample.mono{ font-family:var(--font-mono); color:var(--mint); }
+
+/* ---------- Spacing ---------- */
+.space-row{ display:flex; align-items:center; gap:var(--sp-4); margin-top:var(--sp-3); }
+.space-bar{ height:14px; background:var(--blue); border-radius:3px; }
+.space-label{ font-family:var(--font-mono); font-size:12px; color:var(--fog); width:64px; }
+
+/* ---------- Components grid ---------- */
+.comp-grid{ display:grid; grid-template-columns:repeat(auto-fit,minmax(240px,1fr)); gap:var(--sp-5); margin-top:var(--sp-5); }
+.comp-card{ border:1px solid var(--line); border-radius:var(--radius-lg); background:var(--surface); padding:var(--sp-5); }
+.comp-card h3{ font-size:14px; color:var(--fog); font-weight:500; margin-bottom:var(--sp-4); font-family:var(--font-mono); letter-spacing:.02em; }
+
+/* Buttons */
+.btn-row{ display:flex; flex-wrap:wrap; gap:var(--sp-3); }
+.btn{
+  font-family:var(--font-body); font-size:14px; font-weight:600; cursor:pointer;
+  border-radius:var(--radius-sm); padding:10px 18px; border:1px solid transparent;
+  transition:filter .15s ease;
+}
+.btn:hover{ filter:brightness(1.15); }
+.btn-primary{ background:var(--blue); color:#fff; }
+.btn-secondary{ background:transparent; color:var(--paper); border-color:var(--line); }
+.btn-ghost{ background:transparent; color:var(--fog); }
+.btn-danger{ background:transparent; color:var(--error); border-color:var(--error); }
+.btn[disabled]{ opacity:.35; cursor:not-allowed; }
+
+/* Inputs */
+.field{ display:flex; flex-direction:column; gap:var(--sp-2); margin-bottom:var(--sp-4); }
+.field label{ font-size:12px; color:var(--fog); font-family:var(--font-mono); }
+.field input{
+  background:var(--ink); border:1px solid var(--line); border-radius:var(--radius-sm);
+  padding:10px 12px; color:var(--paper); font-family:var(--font-body); font-size:14px;
+  outline:none; transition:border-color .15s ease;
+}
+.field input:focus{ border-color:var(--blue); }
+.field.error input{ border-color:var(--error); }
+.field .hint{ font-size:12px; color:var(--fog); }
+.field.error .hint{ color:var(--error); }
+
+/* Badges */
+.badge{ display:inline-flex; align-items:center; gap:6px; font-family:var(--font-mono); font-size:12px; padding:4px 10px; border-radius:999px; }
+.badge-mint{ background:#3ECF8E22; color:var(--mint); }
+.badge-blue{ background:var(--blue-dim); color:var(--blue); }
+.badge-amber{ background:#F2A33D22; color:var(--amber); }
+.badge-error{ background:#F2545B22; color:var(--error); }
+.badge-dot{ width:6px; height:6px; border-radius:50%; background:currentColor; }
+
+/* Metric card */
+.metric-card{ background:var(--surface-2); border:1px solid var(--line); border-radius:var(--radius-md); padding:var(--sp-4); }
+.metric-label{ font-size:12px; color:var(--fog); font-family:var(--font-mono); }
+.metric-value{ font-family:var(--font-mono); font-size:28px; color:var(--paper); margin-top:var(--sp-1); }
+.metric-delta{ font-size:12px; color:var(--mint); margin-top:var(--sp-1); font-family:var(--font-mono); }
+
+/* Tabs */
+.tabs{ display:flex; gap:var(--sp-2); background:var(--ink); padding:4px; border-radius:var(--radius-sm); border:1px solid var(--line); width:fit-content; }
+.tab{ padding:6px 14px; font-size:13px; border-radius:5px; color:var(--fog); font-family:var(--font-mono); cursor:pointer; }
+.tab.active{ background:var(--surface); color:var(--paper); }
+
+/* Toggle */
+.toggle{ width:40px; height:22px; background:var(--line); border-radius:999px; position:relative; cursor:pointer; display:inline-block; }
+.toggle.on{ background:var(--blue); }
+.toggle::after{ content:''; position:absolute; top:2px; left:2px; width:18px; height:18px; background:#fff; border-radius:50%; transition:transform .15s ease; }
+.toggle.on::after{ transform:translateX(18px); }
+
+footer{ margin-top:var(--sp-8); padding-top:var(--sp-5); border-top:1px solid var(--line); color:var(--fog); font-size:12px; font-family:var(--font-mono); }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <div class="hero">
+    <div class="eyebrow">Design System · v0.2</div>
+    <h1>Vantage</h1>
+    <p class="tag">A technical design system for a consumer product, built for dark mode. Blue, gray, and black — precise, quiet, instrument-grade.</p>
+    <div class="signal-strip">
+      <svg viewBox="0 0 460 64" preserveAspectRatio="none">
+        <path class="signal-path" d="M0,32 L40,32 L52,10 L64,54 L76,32 L120,32 L132,20 L144,44 L156,32 L220,32 L232,8 L244,56 L256,32 L320,32 L332,18 L344,46 L356,32 L460,32"/>
+      </svg>
+    </div>
+  </div>
+
+  <section>
+    <div class="eyebrow">01 · Color</div>
+    <h2>Color tokens</h2>
+    <p class="lede">A cool, restrained palette: near-black backgrounds, steel-gray for structure and secondary text, and a single blue accent reserved for action and focus.</p>
+    <div class="swatch-grid">
+      <div class="swatch"><div class="swatch-color" style="background:var(--ink)"></div><div class="swatch-info"><div class="swatch-name">Ink</div><div class="swatch-hex">#101418</div><div class="swatch-use">Base background</div></div></div>
+      <div class="swatch"><div class="swatch-color" style="background:var(--surface)"></div><div class="swatch-info"><div class="swatch-name">Surface</div><div class="swatch-hex">#171C21</div><div class="swatch-use">Cards, panels</div></div></div>
+      <div class="swatch"><div class="swatch-color" style="background:var(--surface-2)"></div><div class="swatch-info"><div class="swatch-name">Surface 2</div><div class="swatch-hex">#1D232A</div><div class="swatch-use">Nested surfaces</div></div></div>
+      <div class="swatch"><div class="swatch-color" style="background:var(--line)"></div><div class="swatch-info"><div class="swatch-name">Line</div><div class="swatch-hex">#2B333B</div><div class="swatch-use">Borders, dividers</div></div></div>
+      <div class="swatch"><div class="swatch-color" style="background:var(--steel)"></div><div class="swatch-info"><div class="swatch-name">Steel</div><div class="swatch-hex">#6E7F91</div><div class="swatch-use">Labels, icons</div></div></div>
+      <div class="swatch"><div class="swatch-color" style="background:var(--fog)"></div><div class="swatch-info"><div class="swatch-name">Fog</div><div class="swatch-hex">#8A96A3</div><div class="swatch-use">Secondary text</div></div></div>
+      <div class="swatch"><div class="swatch-color" style="background:var(--paper)"></div><div class="swatch-info"><div class="swatch-name">Paper</div><div class="swatch-hex">#E8ECF0</div><div class="swatch-use">Primary text</div></div></div>
+      <div class="swatch"><div class="swatch-color" style="background:var(--blue)"></div><div class="swatch-info"><div class="swatch-name">Blue</div><div class="swatch-hex">#4C8DFF</div><div class="swatch-use">Primary action, focus</div></div></div>
+      <div class="swatch"><div class="swatch-color" style="background:var(--mint)"></div><div class="swatch-info"><div class="swatch-name">Mint</div><div class="swatch-hex">#3ECF8E</div><div class="swatch-use">Success / positive</div></div></div>
+      <div class="swatch"><div class="swatch-color" style="background:var(--amber)"></div><div class="swatch-info"><div class="swatch-name">Amber</div><div class="swatch-hex">#F2A33D</div><div class="swatch-use">Caution / monitoring</div></div></div>
+      <div class="swatch"><div class="swatch-color" style="background:var(--error)"></div><div class="swatch-info"><div class="swatch-name">Error</div><div class="swatch-hex">#F2545B</div><div class="swatch-use">Errors, destructive</div></div></div>
+    </div>
+  </section>
+
+  <section>
+    <div class="eyebrow">02 · Typography</div>
+    <h2>Type scale</h2>
+    <p class="lede">Open Sans across the whole system — bold weight for display, regular for body — with JetBrains Mono reserved for data, labels, and timestamps.</p>
+    <div style="margin-top:var(--sp-5)">
+      <div class="type-row"><div class="type-label">Display / 40</div><div class="type-sample display" style="font-size:40px">Primary heading</div></div>
+      <div class="type-row"><div class="type-label">Display / 24</div><div class="type-sample display" style="font-size:24px">Section heading</div></div>
+      <div class="type-row"><div class="type-label">Body / 16</div><div class="type-sample body" style="font-size:16px">Regular body copy, used for reading in the interface.</div></div>
+      <div class="type-row"><div class="type-label">Body / 13</div><div class="type-sample body" style="font-size:13px;color:var(--fog)">Secondary text, captions, and hints.</div></div>
+      <div class="type-row"><div class="type-label">Mono / 14</div><div class="type-sample mono" style="font-size:14px">42.7 KM/H — 08:12:03</div></div>
+    </div>
+  </section>
+
+  <section>
+    <div class="eyebrow">03 · Spacing</div>
+    <h2>Spacing scale</h2>
+    <p class="lede">A 4px base, growing on a consistent progression. Used for every padding, margin, and gap across the system.</p>
+    <div style="margin-top:var(--sp-5)">
+      <div class="space-row"><div class="space-label">4</div><div class="space-bar" style="width:4px"></div></div>
+      <div class="space-row"><div class="space-label">8</div><div class="space-bar" style="width:8px"></div></div>
+      <div class="space-row"><div class="space-label">12</div><div class="space-bar" style="width:12px"></div></div>
+      <div class="space-row"><div class="space-label">16</div><div class="space-bar" style="width:16px"></div></div>
+      <div class="space-row"><div class="space-label">24</div><div class="space-bar" style="width:24px"></div></div>
+      <div class="space-row"><div class="space-label">32</div><div class="space-bar" style="width:32px"></div></div>
+      <div class="space-row"><div class="space-label">48</div><div class="space-bar" style="width:48px"></div></div>
+      <div class="space-row"><div class="space-label">64</div><div class="space-bar" style="width:64px"></div></div>
+    </div>
+  </section>
+
+  <section>
+    <div class="eyebrow">04 · Components</div>
+    <h2>Core components</h2>
+    <p class="lede">Every component is built from the tokens above. States (hover, focus, disabled, error) are defined as part of the component, not as an exception.</p>
+
+    <div class="comp-grid">
+      <div class="comp-card">
+        <h3>Buttons</h3>
+        <div class="btn-row">
+          <button class="btn btn-primary">Save changes</button>
+          <button class="btn btn-secondary">Cancel</button>
+          <button class="btn btn-ghost">Skip</button>
+          <button class="btn btn-danger">Delete</button>
+          <button class="btn btn-primary" disabled>Unavailable</button>
+        </div>
+      </div>
+
+      <div class="comp-card">
+        <h3>Inputs</h3>
+        <div class="field">
+          <label>Email address</label>
+          <input type="text" placeholder="you@vantage.app">
+        </div>
+        <div class="field error">
+          <label>Password</label>
+          <input type="text" value="••••">
+          <div class="hint">Password is too short</div>
+        </div>
+      </div>
+
+      <div class="comp-card">
+        <h3>Badges / Status</h3>
+        <div class="btn-row">
+          <span class="badge badge-mint"><span class="badge-dot"></span> Active</span>
+          <span class="badge badge-blue"><span class="badge-dot"></span> Pending</span>
+          <span class="badge badge-amber"><span class="badge-dot"></span> Monitoring</span>
+          <span class="badge badge-error"><span class="badge-dot"></span> Failed</span>
+        </div>
+      </div>
+
+      <div class="comp-card">
+        <h3>Metric card</h3>
+        <div class="metric-card">
+          <div class="metric-label">Average heart rate</div>
+          <div class="metric-value">62 BPM</div>
+          <div class="metric-delta">▲ 3.2% from last week</div>
+        </div>
+      </div>
+
+      <div class="comp-card">
+        <h3>Tabs</h3>
+        <div class="tabs">
+          <div class="tab active">Daily</div>
+          <div class="tab">Weekly</div>
+          <div class="tab">Monthly</div>
+        </div>
+      </div>
+
+      <div class="comp-card">
+        <h3>Toggle</h3>
+        <div class="btn-row" style="align-items:center">
+          <div class="toggle on"></div>
+          <div class="toggle"></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    Vantage Design System — tokens defined as CSS custom properties above. This file is a starting point: it's code you can copy and extend directly.
+  </footer>
+
+</div>
+</body>
+</html>

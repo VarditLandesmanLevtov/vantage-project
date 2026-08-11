@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+<meta charset="UTF-8">
+<title>Vantage — Top Nav Bar</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap');
+
+:root{
+  --ink:        #101418;
+  --surface:    #171C21;
+  --surface-2:  #1D232A;
+  --line:       #2B333B;
+  --fog:        #8A96A3;
+  --paper:      #E8ECF0;
+  --blue:       #4C8DFF;
+  --blue-dim:   #4C8DFF22;
+  --steel:      #6E7F91;
+  --mint:       #3ECF8E;
+  --error:      #F2545B;
+
+  --font-display: 'Open Sans', sans-serif;
+  --font-body: 'Open Sans', sans-serif;
+  --font-mono: 'JetBrains Mono', monospace;
+
+  --sp-1: 4px;  --sp-2: 8px;  --sp-3: 12px; --sp-4: 16px;
+  --sp-5: 24px; --sp-6: 32px; --sp-7: 48px; --sp-8: 64px;
+
+  --radius-sm: 6px;
+  --radius-md: 10px;
+  --radius-lg: 16px;
+}
+
+*{ box-sizing:border-box; }
+html,body{ margin:0; padding:0; }
+body{
+  background:var(--ink);
+  color:var(--paper);
+  font-family:var(--font-body);
+  line-height:1.55;
+}
+.page-pad{ padding:var(--sp-8) var(--sp-6); }
+.wrap{ max-width:900px; margin:0 auto; }
+h1{ font-family:var(--font-display); font-weight:700; margin:0; font-size:32px; }
+.eyebrow{
+  font-family:var(--font-mono); font-size:12px; letter-spacing:.08em;
+  color:var(--fog); text-transform:uppercase; margin-bottom:var(--sp-2);
+}
+p.lede{ color:var(--fog); margin:var(--sp-3) 0 0; font-size:15px; }
+section{ margin-top:var(--sp-7); }
+.group-label{ font-family:var(--font-mono); font-size:12px; color:var(--steel); margin-bottom:var(--sp-3); }
+
+/* ---------- Top nav bar ---------- */
+.nav-bar{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:var(--sp-5);
+  padding:var(--sp-3) var(--sp-5);
+  background:var(--surface);
+  border-bottom:1px solid var(--line);
+}
+
+.nav-logo{
+  font-family:var(--font-display);
+  font-weight:700;
+  font-size:18px;
+  color:var(--paper);
+  letter-spacing:.01em;
+  display:flex;
+  align-items:center;
+  gap:var(--sp-2);
+}
+.nav-logo-dot{ width:8px; height:8px; border-radius:50%; background:var(--blue); }
+
+.nav-links{ display:flex; align-items:center; gap:var(--sp-5); }
+.nav-link{
+  position:relative;
+  font-family:var(--font-body);
+  font-size:14px;
+  font-weight:600;
+  color:var(--fog);
+  text-decoration:none;
+  padding:4px 2px;
+  outline:none;
+  border-radius:var(--radius-sm);
+  transition:color .15s ease, box-shadow .15s ease;
+}
+.nav-link:hover{ color:var(--paper); }
+.nav-link:focus-visible{ box-shadow:0 0 0 3px var(--blue-dim); }
+.nav-link.active{ color:var(--paper); }
+.nav-link.active::after{
+  content:''; position:absolute; left:0; right:0; bottom:-12px; height:2px;
+  background:var(--blue); border-radius:2px;
+}
+.nav-link.is-disabled{ color:var(--steel); opacity:.35; pointer-events:none; }
+
+.nav-right{ display:flex; align-items:center; gap:var(--sp-4); }
+
+.nav-avatar{
+  position:relative;
+  width:32px; height:32px;
+  border-radius:50%;
+  background:var(--surface-2);
+  border:1px solid var(--line);
+  color:var(--paper);
+  font-family:var(--font-mono);
+  font-size:12px;
+  font-weight:600;
+  display:flex; align-items:center; justify-content:center;
+  cursor:pointer;
+  outline:none;
+  transition:border-color .15s ease, box-shadow .15s ease;
+}
+.nav-avatar:hover{ border-color:var(--blue); }
+.nav-avatar:focus-visible{ box-shadow:0 0 0 3px var(--blue-dim); }
+.nav-avatar.has-alert::after{
+  content:''; position:absolute; top:-2px; right:-2px;
+  width:9px; height:9px; border-radius:50%;
+  background:var(--error); border:2px solid var(--surface);
+}
+
+/* Static state preview */
+.state-preview-row{ display:flex; align-items:center; gap:var(--sp-5); background:var(--surface); border:1px solid var(--line); border-radius:var(--radius-md); padding:var(--sp-4); }
+.state-preview{ display:flex; flex-direction:column; align-items:center; gap:var(--sp-2); }
+.state-preview span{ font-family:var(--font-mono); font-size:11px; color:var(--steel); }
+.state-caption{ margin-top:var(--sp-2); font-family:var(--font-mono); font-size:11px; color:var(--steel); }
+
+footer{ margin-top:var(--sp-8); padding-top:var(--sp-5); border-top:1px solid var(--line); color:var(--fog); font-size:12px; font-family:var(--font-mono); }
+</style>
+</head>
+<body>
+
+<header class="nav-bar">
+  <div class="nav-logo"><span class="nav-logo-dot"></span>Vantage</div>
+  <nav class="nav-links" aria-label="Primary">
+    <a href="#" class="nav-link active" aria-current="page" onclick="setActive(this); return false;">Dashboard</a>
+    <a href="#" class="nav-link" onclick="setActive(this); return false;">Health</a>
+    <a href="#" class="nav-link" onclick="setActive(this); return false;">Settings</a>
+    <span class="nav-link is-disabled" aria-disabled="true">Reports</span>
+  </nav>
+  <div class="nav-right">
+    <button class="nav-avatar has-alert" aria-label="Profile, account issue">VL</button>
+  </div>
+</header>
+
+<div class="page-pad">
+<div class="wrap">
+
+  <div class="eyebrow">Vantage · Component</div>
+  <h1>Top nav bar</h1>
+  <p class="lede">Built from existing Vantage tokens — surface background, blue for the active-section indicator and focus rings, mono type for the avatar initials (matching the badge / tab / field-label mono convention already in design-system.html).</p>
+
+  <section>
+    <div class="group-label">Interaction</div>
+    <p class="lede" style="margin-top:0">Click Dashboard / Health / Settings above to move the active indicator. "Reports" shows the disabled state (locked nav item). The profile avatar shows a hover, a keyboard-focus ring (Tab), and an error dot indicating an account issue.</p>
+  </section>
+
+  <section>
+    <div class="group-label">Avatar states</div>
+    <div class="state-preview-row">
+      <div class="state-preview">
+        <button class="nav-avatar" aria-label="Profile">VL</button>
+        <span>Default</span>
+      </div>
+      <div class="state-preview">
+        <button class="nav-avatar has-alert" aria-label="Profile, account issue">VL</button>
+        <span>Error / alert</span>
+      </div>
+    </div>
+    <div class="state-caption">Hover and focus (Tab) are live on both avatars above.</div>
+  </section>
+
+</div>
+</div>
+
+<footer>
+  Vantage Design System — nav-bar.html. Built from existing tokens only (color, type, spacing, radius) and the mono-label convention already used for badges, tabs, and field labels in design-system.html.
+</footer>
+
+<script>
+  function setActive(link){
+    document.querySelectorAll('.nav-link').forEach(function(l){
+      l.classList.remove('active');
+      l.removeAttribute('aria-current');
+    });
+    link.classList.add('active');
+    link.setAttribute('aria-current', 'page');
+  }
+</script>
+</body>
+</html>

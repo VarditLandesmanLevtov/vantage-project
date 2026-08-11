@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+<meta charset="UTF-8">
+<title>Vantage — Settings Panel</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap');
+
+:root{
+  --ink:        #101418;
+  --surface:    #171C21;
+  --surface-2:  #1D232A;
+  --line:       #2B333B;
+  --fog:        #8A96A3;
+  --paper:      #E8ECF0;
+  --blue:       #4C8DFF;
+  --blue-dim:   #4C8DFF22;
+  --steel:      #6E7F91;
+  --mint:       #3ECF8E;
+  --error:      #F2545B;
+
+  --font-display: 'Open Sans', sans-serif;
+  --font-body: 'Open Sans', sans-serif;
+  --font-mono: 'JetBrains Mono', monospace;
+
+  --sp-1: 4px;  --sp-2: 8px;  --sp-3: 12px; --sp-4: 16px;
+  --sp-5: 24px; --sp-6: 32px; --sp-7: 48px; --sp-8: 64px;
+
+  --radius-sm: 6px;
+  --radius-md: 10px;
+  --radius-lg: 16px;
+}
+
+*{ box-sizing:border-box; }
+html,body{ margin:0; padding:0; }
+body{
+  background:var(--ink);
+  color:var(--paper);
+  font-family:var(--font-body);
+  line-height:1.55;
+  padding:var(--sp-8) var(--sp-6);
+}
+.wrap{ max-width:640px; margin:0 auto; }
+h1{ font-family:var(--font-display); font-weight:700; margin:0; font-size:32px; }
+.eyebrow{
+  font-family:var(--font-mono); font-size:12px; letter-spacing:.08em;
+  color:var(--fog); text-transform:uppercase; margin-bottom:var(--sp-2);
+}
+p.lede{ color:var(--fog); margin:var(--sp-3) 0 0; font-size:15px; }
+section{ margin-top:var(--sp-7); }
+.group-label{ font-family:var(--font-mono); font-size:12px; color:var(--steel); margin-bottom:var(--sp-3); }
+
+/* ---------- Settings panel ---------- */
+.settings-panel{
+  background:var(--surface);
+  border:1px solid var(--line);
+  border-radius:var(--radius-lg);
+  padding:var(--sp-5);
+}
+.settings-panel h2{
+  font-family:var(--font-display); font-weight:700; font-size:24px; margin:0 0 var(--sp-4);
+}
+
+.setting-row{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:var(--sp-4);
+  padding:var(--sp-4) 0;
+  border-bottom:1px solid var(--line);
+}
+.settings-panel .setting-row:last-child{ border-bottom:none; padding-bottom:0; }
+.settings-panel .setting-row:first-of-type{ padding-top:0; }
+
+.setting-text{ display:flex; flex-direction:column; gap:2px; }
+.setting-label{ font-family:var(--font-body); font-size:15px; font-weight:600; color:var(--paper); }
+.setting-hint{ font-family:var(--font-body); font-size:13px; color:var(--fog); }
+
+/* Toggle (design-system.html pattern) */
+.toggle{
+  width:40px; height:22px; background:var(--line); border-radius:999px;
+  position:relative; cursor:pointer; display:inline-block; flex-shrink:0;
+  border:none; padding:0; outline:none;
+  transition:background .15s ease, box-shadow .15s ease;
+}
+.toggle::after{
+  content:''; position:absolute; top:2px; left:2px; width:18px; height:18px;
+  background:#fff; border-radius:50%; transition:transform .15s ease;
+}
+.toggle.on{ background:var(--blue); }
+.toggle.on::after{ transform:translateX(18px); }
+.toggle:hover{ filter:brightness(1.15); }
+.toggle:focus-visible{ box-shadow:0 0 0 3px var(--blue-dim); }
+.toggle[disabled]{ opacity:.35; cursor:not-allowed; filter:none; }
+
+/* Tabs (design-system.html pattern) */
+.tabs{
+  display:flex; gap:var(--sp-2); background:var(--ink); padding:4px;
+  border-radius:var(--radius-sm); border:1px solid var(--line); width:fit-content;
+}
+.tab{
+  padding:6px 14px; font-size:13px; border-radius:5px; color:var(--fog);
+  font-family:var(--font-mono); cursor:pointer; border:none; background:transparent;
+  outline:none; transition:background .15s ease, color .15s ease, box-shadow .15s ease;
+}
+.tab:hover:not(.active){ color:var(--paper); }
+.tab:focus-visible{ box-shadow:0 0 0 3px var(--blue-dim); }
+.tab.active{ background:var(--surface); color:var(--paper); }
+
+footer{ margin-top:var(--sp-8); padding-top:var(--sp-5); border-top:1px solid var(--line); color:var(--fog); font-size:12px; font-family:var(--font-mono); }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <div class="eyebrow">Vantage · Component</div>
+  <h1>Settings panel</h1>
+  <p class="lede">Built from existing Vantage tokens and component patterns — panel surface, the toggle switch, and the tabs control from design-system.html.</p>
+
+  <section>
+    <div class="settings-panel">
+      <h2>Settings</h2>
+
+      <div class="setting-row">
+        <div class="setting-text">
+          <span class="setting-label">Notifications</span>
+          <span class="setting-hint">Alerts for anomalies and daily summaries</span>
+        </div>
+        <button class="toggle" role="switch" aria-checked="false" aria-label="Notifications"></button>
+      </div>
+
+      <div class="setting-row">
+        <div class="setting-text">
+          <span class="setting-label">Dark mode</span>
+          <span class="setting-hint">Use the dark Vantage theme across the app</span>
+        </div>
+        <button class="toggle on" role="switch" aria-checked="true" aria-label="Dark mode"></button>
+      </div>
+
+      <div class="setting-row">
+        <div class="setting-text">
+          <span class="setting-label">Units</span>
+          <span class="setting-hint">Measurement system for distance, weight, and temperature</span>
+        </div>
+        <div class="tabs" role="tablist" aria-label="Units">
+          <button class="tab active" role="tab" aria-selected="true">Metric</button>
+          <button class="tab" role="tab" aria-selected="false">Imperial</button>
+        </div>
+      </div>
+
+      <div class="setting-row">
+        <div class="setting-text">
+          <span class="setting-label">Auto-sync</span>
+          <span class="setting-hint">Currently unavailable on this plan</span>
+        </div>
+        <button class="toggle" role="switch" aria-checked="false" aria-label="Auto-sync" disabled></button>
+      </div>
+
+    </div>
+  </section>
+
+  <section>
+    <div class="group-label">States reference</div>
+    <p class="lede" style="margin-top:0">Toggle: default (off), on, hover, focus (Tab), disabled — shown above in the Auto-sync row. Tabs: active vs. inactive, hover, and focus, shown in the Units row. Try tabbing through the controls and clicking the toggles.</p>
+  </section>
+
+  <footer>
+    Vantage Design System — settings-panel.html. Built from existing tokens only (color, type, spacing, radius) and the toggle / tabs patterns in design-system.html.
+  </footer>
+
+</div>
+<script>
+  document.querySelectorAll('.toggle:not([disabled])').forEach(function(t){
+    t.addEventListener('click', function(){
+      var on = t.classList.toggle('on');
+      t.setAttribute('aria-checked', on ? 'true' : 'false');
+    });
+  });
+  document.querySelectorAll('.tabs').forEach(function(group){
+    group.querySelectorAll('.tab').forEach(function(tab){
+      tab.addEventListener('click', function(){
+        group.querySelectorAll('.tab').forEach(function(t){
+          t.classList.remove('active');
+          t.setAttribute('aria-selected', 'false');
+        });
+        tab.classList.add('active');
+        tab.setAttribute('aria-selected', 'true');
+      });
+    });
+  });
+</script>
+</body>
+</html>
