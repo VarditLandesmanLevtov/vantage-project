@@ -2,6 +2,7 @@
 <html lang="en" dir="ltr">
 <head>
 <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Vantage — Dashboard</title>
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap');
@@ -227,6 +228,22 @@ p.lede{ color:var(--fog); max-width:560px; margin:var(--sp-3) 0 0; font-size:15p
 .tab.active{ background:var(--surface); color:var(--paper); }
 
 footer{ margin-top:var(--sp-8); padding-top:var(--sp-5); border-top:1px solid var(--line); color:var(--fog); font-size:12px; font-family:var(--font-mono); max-width:1280px; margin-left:auto; margin-right:auto; }
+
+/* ---------- Responsive (mobile / tablet) ---------- */
+@media (max-width: 640px){
+  .nav-bar{ padding:var(--sp-3) var(--sp-4); gap:var(--sp-3); flex-wrap:wrap; }
+  .nav-links{ gap:var(--sp-4); }
+
+  .page-pad{ padding:var(--sp-4); }
+  h1{ font-size:24px !important; }
+
+  .card-row{ grid-template-columns:1fr; }
+
+  .settings-panel{ padding:var(--sp-4); }
+  .setting-row{ flex-wrap:wrap; gap:var(--sp-2); }
+
+  footer{ margin-top:var(--sp-6); }
+}
 </style>
 </head>
 <body>

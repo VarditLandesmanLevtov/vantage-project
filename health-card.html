@@ -2,6 +2,7 @@
 <html lang="en" dir="ltr">
 <head>
 <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Vantage — Health Metric Card</title>
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap');
@@ -108,6 +109,16 @@ section{ margin-top:var(--sp-7); }
 .state-caption{ margin-top:var(--sp-2); font-family:var(--font-mono); font-size:11px; color:var(--steel); }
 
 footer{ margin-top:var(--sp-8); padding-top:var(--sp-5); border-top:1px solid var(--line); color:var(--fog); font-size:12px; font-family:var(--font-mono); }
+
+/* ---------- Responsive (mobile / tablet) ---------- */
+@media (max-width: 640px){
+  body{ padding:var(--sp-6) var(--sp-4); }
+  section{ margin-top:var(--sp-6); }
+
+  h1{ font-size:24px; }
+
+  .card-row{ grid-template-columns:1fr; }
+}
 </style>
 </head>
 <body>
