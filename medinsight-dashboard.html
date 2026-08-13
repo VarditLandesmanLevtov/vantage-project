@@ -324,8 +324,8 @@ h1,h2,h3{ font-family:var(--font-display); font-weight:700; margin:0; }
 
   .main-content{ padding:var(--sp-4); gap:var(--sp-4); }
 
-  .tabs{ width:100%; overflow-x:auto; -webkit-overflow-scrolling:touch; }
-  .tab{ white-space:nowrap; }
+  .tabs{ width:100%; }
+  .tab{ flex:1; text-align:center; padding:8px 6px; }
 
   .stat-row{ grid-template-columns:1fr; }
   .chart-row{ grid-template-columns:1fr; }
@@ -350,6 +350,9 @@ h1,h2,h3{ font-family:var(--font-display); font-weight:700; margin:0; }
   .alert-time{ display:none; }
 
   .quick-actions{ gap:var(--sp-2); }
+
+  .tab{ padding:8px 4px; font-size:11px; }
+  .tabs{ gap:2px; }
 }
 </style>
 </head>
