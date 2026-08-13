@@ -127,6 +127,10 @@ h1,h2,h3{ font-family:var(--font-display); font-weight:700; margin:0; }
 .main-content{ flex:1; min-width:0; padding:var(--sp-6); display:flex; flex-direction:column; gap:var(--sp-6); }
 
 .tabs{ display:flex; gap:var(--sp-2); background:var(--surface); padding:4px; border-radius:var(--radius-sm); border:1px solid var(--line); width:fit-content; }
+.main-tabs{ width:100%; }
+.main-tabs .tab{ flex:1; text-align:center; }
+.sub-tabs{ width:100%; }
+.sub-tabs .tab{ flex:1; text-align:center; }
 .tab{
   padding:8px 16px; font-size:13px; border-radius:5px; color:var(--fog); font-family:var(--font-mono);
   cursor:pointer; border:none; background:transparent; outline:none;
@@ -219,11 +223,11 @@ h1,h2,h3{ font-family:var(--font-display); font-weight:700; margin:0; }
 
 /* Recent alerts */
 .alerts-panel{ background:var(--surface); border:1px solid var(--line); border-radius:var(--radius-lg); padding:var(--sp-5); }
-.alert-item{ display:flex; align-items:flex-start; gap:var(--sp-3); padding:var(--sp-4) 0; border-bottom:1px solid var(--line); }
-.alert-item:last-child{ border-bottom:none; padding-bottom:0; }
-.alert-item:first-child{ padding-top:0; }
+.alert-item{ display:flex; align-items:flex-start; gap:var(--sp-3); padding:var(--sp-4); border-radius:var(--radius-md); border:1px solid var(--line); background:var(--surface-2); }
+.alert-item + .alert-item{ margin-top:var(--sp-3); }
 .alert-icon{ width:32px; height:32px; border-radius:50%; display:flex; align-items:center; justify-content:center; flex-shrink:0; background:var(--blue-dim); color:var(--blue); }
 .alert-icon svg{ width:16px; height:16px; }
+.alert-item.is-error{ background:#F2545B14; border-color:#F2545B40; }
 .alert-item.is-error .alert-icon{ background:#F2545B22; color:var(--error); }
 .alert-body{ display:flex; flex-direction:column; gap:2px; flex:1; min-width:0; }
 .alert-title{ font-size:14px; font-weight:600; color:var(--paper); }
@@ -235,9 +239,8 @@ h1,h2,h3{ font-family:var(--font-display); font-weight:700; margin:0; }
 .panel{ background:var(--surface); border:1px solid var(--line); border-radius:var(--radius-lg); padding:var(--sp-5); }
 
 /* Primary findings */
-.finding-row{ display:flex; align-items:flex-start; justify-content:space-between; gap:var(--sp-4); padding:var(--sp-4) 0; border-bottom:1px solid var(--line); }
-.finding-row:last-child{ border-bottom:none; padding-bottom:0; }
-.finding-row:first-child{ padding-top:0; }
+.finding-row{ display:flex; align-items:flex-start; justify-content:space-between; gap:var(--sp-4); padding:var(--sp-4); background:var(--surface-2); border:1px solid var(--line); border-radius:var(--radius-md); }
+.finding-row + .finding-row{ margin-top:var(--sp-3); }
 .finding-text{ display:flex; flex-direction:column; gap:2px; }
 .finding-title{ font-size:14px; font-weight:600; color:var(--paper); }
 .finding-desc{ font-size:13px; color:var(--fog); }
@@ -248,16 +251,26 @@ h1,h2,h3{ font-family:var(--font-display); font-weight:700; margin:0; }
 .risk-head{ display:flex; align-items:center; justify-content:space-between; gap:var(--sp-3); }
 .risk-label{ font-size:13px; font-weight:600; color:var(--paper); }
 .risk-percent{ font-family:var(--font-mono); font-size:14px; color:var(--paper); }
+.risk-percent.mint{ color:var(--mint); }
+.risk-percent.amber{ color:var(--amber); }
+.risk-percent.error{ color:var(--error); }
 .risk-bar-track{ height:8px; background:var(--line); border-radius:999px; overflow:hidden; }
-.risk-bar-fill{ height:100%; border-radius:999px; }
-.risk-bar-fill.risk-mint{ background:var(--mint); }
-.risk-bar-fill.risk-amber{ background:var(--amber); }
-.risk-bar-fill.risk-error{ background:var(--error); }
+.risk-bar-fill{ height:100%; border-radius:999px; background:var(--paper); }
 
 /* Pattern recognition & insights */
 .ai-insights-grid{ display:grid; grid-template-columns:1.4fr 1fr; gap:var(--sp-5); }
 @media (max-width: 900px){ .ai-insights-grid{ grid-template-columns:1fr; } }
 .insight-cards{ display:flex; flex-direction:column; gap:var(--sp-3); }
+.insight-grid{ display:grid; grid-template-columns:1.4fr 1fr; column-gap:var(--sp-5); row-gap:var(--sp-3); align-items:stretch; }
+.ig-hleft{ order:1; } .ig-hright{ order:2; }
+.ig-l1{ order:3; } .ig-r1{ order:4; }
+.ig-l2{ order:5; } .ig-r2{ order:6; }
+.ig-l3{ order:7; } .ig-r3{ order:8; }
+@media (max-width: 900px){
+  .insight-grid{ grid-template-columns:1fr; }
+  .ig-hleft{ order:1; } .ig-l1{ order:2; } .ig-l2{ order:3; } .ig-l3{ order:4; }
+  .ig-hright{ order:5; } .ig-r1{ order:6; } .ig-r2{ order:7; } .ig-r3{ order:8; }
+}
 .insight-card{
   display:flex; gap:var(--sp-3); align-items:flex-start;
   background:var(--surface-2); border:1px solid var(--line); border-left:3px solid var(--line);
@@ -274,9 +287,10 @@ h1,h2,h3{ font-family:var(--font-display); font-weight:700; margin:0; }
 .insight-card-body{ display:flex; flex-direction:column; gap:2px; }
 .insight-card-title{ font-size:14px; font-weight:600; color:var(--paper); }
 .insight-card-desc{ font-size:13px; color:var(--fog); }
+.insight-card.plain{ border-left:1px solid var(--line); background:var(--surface); }
 
 /* ---------- Medication review cards ---------- */
-.med-section-title{ display:flex; align-items:center; gap:var(--sp-2); font-family:var(--font-display); font-weight:700; font-size:20px; margin:0 0 var(--sp-4); }
+.med-section-title{ display:flex; align-items:center; flex-wrap:wrap; gap:var(--sp-2); font-family:var(--font-display); font-weight:700; font-size:20px; margin:0 0 var(--sp-4); }
 .med-section-title svg{ width:20px; height:20px; color:var(--blue); }
 .section-heading-row{ display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:var(--sp-3); }
 .section-heading-row .med-section-title{ margin:0; }
@@ -495,7 +509,7 @@ h1,h2,h3{ font-family:var(--font-display); font-weight:700; margin:0; }
 
   <main class="main-content">
 
-    <div class="tabs" role="tablist" aria-label="Patient record sections">
+    <div class="tabs main-tabs" role="tablist" aria-label="Patient record sections">
       <button class="tab active" role="tab" aria-selected="true" data-tab="overview">Overview</button>
       <button class="tab" role="tab" aria-selected="false" data-tab="ai">AI Diagnostics</button>
       <button class="tab" role="tab" aria-selected="false" data-tab="treatment">Treatment</button>
@@ -596,24 +610,23 @@ h1,h2,h3{ font-family:var(--font-display); font-weight:700; margin:0; }
       </div>
 
       <div class="alerts-panel">
-        <div class="group-label">Recent Alerts</div>
+        <h3 class="med-section-title" style="margin-bottom:var(--sp-4)">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" style="color:var(--amber)"><path d="M10.29 3.86 1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0Z"/><path d="M12 9v4M12 16.5v.01"/></svg>
+          Recent Alerts &amp; Notifications
+        </h3>
 
         <div class="alert-item is-error">
-          <span class="alert-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v6M12 16.5v.01"/></svg></span>
+          <span class="alert-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M10.29 3.86 1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0Z"/><path d="M12 9v4M12 16.5v.01"/></svg></span>
           <div class="alert-body">
-            <span class="alert-title">Critical: Blood glucose spike</span>
-            <span class="alert-desc">182 mg/dL recorded at 14:32 — 40 mg/dL above target range.</span>
+            <span class="alert-title">Blood pressure consistently elevated over the past 3 readings. Consider medication adjustment.</span>
           </div>
-          <span class="alert-time">14:32</span>
         </div>
 
         <div class="alert-item">
-          <span class="alert-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8a6 6 0 0 0-12 0c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg></span>
+          <span class="alert-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3.5 2"/></svg></span>
           <div class="alert-body">
-            <span class="alert-title">Lab results uploaded</span>
-            <span class="alert-desc">Complete metabolic panel results are now available for review.</span>
+            <span class="alert-title" style="color:var(--blue)">Upcoming appointment: Cardiology follow-up scheduled for March 15, 2024.</span>
           </div>
-          <span class="alert-time">09:15</span>
         </div>
       </div>
 
@@ -622,123 +635,128 @@ h1,h2,h3{ font-family:var(--font-display); font-weight:700; margin:0; }
     <div class="tab-panel" id="tab-ai" hidden>
 
       <div class="panel">
-        <div class="section-heading-row">
-          <h3 class="med-section-title">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M9.5 2a3.5 3.5 0 0 0-3.5 3.5v.6A3 3 0 0 0 4 9v1a3 3 0 0 0 .4 1.5A3.5 3.5 0 0 0 3 14.5 3.5 3.5 0 0 0 6.5 18h0A3.5 3.5 0 0 0 10 21.5V5.5A3.5 3.5 0 0 0 9.5 2Z"/><path d="M14.5 2a3.5 3.5 0 0 1 3.5 3.5v.6A3 3 0 0 1 20 9v1a3 3 0 0 1-.4 1.5A3.5 3.5 0 0 1 21 14.5 3.5 3.5 0 0 1 17.5 18h0A3.5 3.5 0 0 1 14 21.5V5.5A3.5 3.5 0 0 1 14.5 2Z"/></svg>
-            AI Diagnostic Analysis
-          </h3>
+        <h3 class="med-section-title">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M9.5 2a3.5 3.5 0 0 0-3.5 3.5v.6A3 3 0 0 0 4 9v1a3 3 0 0 0 .4 1.5A3.5 3.5 0 0 0 3 14.5 3.5 3.5 0 0 0 6.5 18h0A3.5 3.5 0 0 0 10 21.5V5.5A3.5 3.5 0 0 0 9.5 2Z"/><path d="M14.5 2a3.5 3.5 0 0 1 3.5 3.5v.6A3 3 0 0 1 20 9v1a3 3 0 0 1-.4 1.5A3.5 3.5 0 0 1 21 14.5 3.5 3.5 0 0 1 17.5 18h0A3.5 3.5 0 0 1 14 21.5V5.5A3.5 3.5 0 0 1 14.5 2Z"/></svg>
+          AI Diagnostic Analysis
           <span class="badge badge-blue"><span class="badge-dot"></span>Confidence: 92%</span>
+        </h3>
+
+        <div class="med-two-col" style="margin-top:var(--sp-5)">
+          <div>
+            <div class="group-label">Primary Findings</div>
+
+            <div class="finding-row">
+              <div class="finding-text">
+                <span class="finding-title">Elevated cardiovascular risk markers</span>
+                <span class="finding-desc">Recent lipid panel combined with blood pressure trend suggests increased 10-year CVD risk.</span>
+              </div>
+              <span class="badge badge-error"><span class="badge-dot"></span>High</span>
+            </div>
+
+            <div class="finding-row">
+              <div class="finding-text">
+                <span class="finding-title">Glycemic variability pattern detected</span>
+                <span class="finding-desc">Post-meal glucose spikes recurring on Tuesdays and Fridays, consistent with dietary triggers.</span>
+              </div>
+              <span class="badge badge-amber"><span class="badge-dot"></span>Medium</span>
+            </div>
+
+            <div class="finding-row">
+              <div class="finding-text">
+                <span class="finding-title">Sleep quality within acceptable range</span>
+                <span class="finding-desc">Wearable data shows stable sleep efficiency over the past 30 days.</span>
+              </div>
+              <span class="badge badge-blue"><span class="badge-dot"></span>Monitor</span>
+            </div>
+          </div>
+
+          <div>
+            <div class="group-label">Risk Predictions</div>
+
+            <div class="risk-list">
+              <div class="risk-item">
+                <div class="risk-head">
+                  <span class="risk-label">Cardiovascular event risk (5-yr)</span>
+                  <span class="risk-percent amber">34%</span>
+                </div>
+                <div class="risk-bar-track"><div class="risk-bar-fill" style="width:34%"></div></div>
+              </div>
+
+              <div class="risk-item">
+                <div class="risk-head">
+                  <span class="risk-label">Diabetic complication risk</span>
+                  <span class="risk-percent error">61%</span>
+                </div>
+                <div class="risk-bar-track"><div class="risk-bar-fill" style="width:61%"></div></div>
+              </div>
+
+              <div class="risk-item">
+                <div class="risk-head">
+                  <span class="risk-label">Hospital readmission risk (90-day)</span>
+                  <span class="risk-percent mint">12%</span>
+                </div>
+                <div class="risk-bar-track"><div class="risk-bar-fill" style="width:12%"></div></div>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
 
       <div class="panel">
-        <div class="group-label">Primary Findings</div>
+        <h3 class="med-section-title">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="5"/><circle cx="12" cy="12" r="1"/></svg>
+          Pattern Recognition &amp; Insights
+        </h3>
 
-        <div class="finding-row">
-          <div class="finding-text">
-            <span class="finding-title">Elevated cardiovascular risk markers</span>
-            <span class="finding-desc">Recent lipid panel combined with blood pressure trend suggests increased 10-year CVD risk.</span>
+        <div class="insight-grid">
+          <div class="med-col-head ig-hleft">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" style="color:var(--blue)"><path d="M22 7 13.5 15.5 8.5 10.5 2 17"/><path d="M16 7h6v6"/></svg>
+            Detected Patterns
           </div>
-          <span class="badge badge-error"><span class="badge-dot"></span>High</span>
-        </div>
-
-        <div class="finding-row">
-          <div class="finding-text">
-            <span class="finding-title">Glycemic variability pattern detected</span>
-            <span class="finding-desc">Post-meal glucose spikes recurring on Tuesdays and Fridays, consistent with dietary triggers.</span>
-          </div>
-          <span class="badge badge-amber"><span class="badge-dot"></span>Medium</span>
-        </div>
-
-        <div class="finding-row">
-          <div class="finding-text">
-            <span class="finding-title">Sleep quality within acceptable range</span>
-            <span class="finding-desc">Wearable data shows stable sleep efficiency over the past 30 days.</span>
-          </div>
-          <span class="badge badge-blue"><span class="badge-dot"></span>Monitor</span>
-        </div>
-      </div>
-
-      <div class="panel">
-        <div class="group-label">Risk Predictions</div>
-
-        <div class="risk-list">
-          <div class="risk-item">
-            <div class="risk-head">
-              <span class="risk-label">Cardiovascular event risk (5-yr)</span>
-              <span class="risk-percent">34%</span>
-            </div>
-            <div class="risk-bar-track"><div class="risk-bar-fill risk-amber" style="width:34%"></div></div>
+          <div class="med-col-head ig-hright">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" style="color:var(--amber)"><path d="M9 18h6M10 21h4M12 3a6 6 0 0 0-4 10.5c.5.5 1 1.3 1 2.5h6c0-1.2.5-2 1-2.5A6 6 0 0 0 12 3Z"/></svg>
+            AI Recommendations
           </div>
 
-          <div class="risk-item">
-            <div class="risk-head">
-              <span class="risk-label">Diabetic complication risk</span>
-              <span class="risk-percent">61%</span>
+          <div class="insight-card blue ig-l1">
+            <div class="insight-card-body">
+              <span class="insight-card-title">Blood Pressure Correlation</span>
+              <span class="insight-card-desc">BP elevations correlate with missed medication doses (R=0.78)</span>
             </div>
-            <div class="risk-bar-track"><div class="risk-bar-fill risk-error" style="width:61%"></div></div>
+          </div>
+          <div class="insight-card mint plain ig-r1">
+            <span class="insight-card-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M8.5 12.5 11 15l4.5-5"/></svg></span>
+            <div class="insight-card-body">
+              <span class="insight-card-title">Medication Timing Optimization</span>
+              <span class="insight-card-desc">Consider splitting Metformin dose to improve tolerance</span>
+            </div>
           </div>
 
-          <div class="risk-item">
-            <div class="risk-head">
-              <span class="risk-label">Hospital readmission risk (90-day)</span>
-              <span class="risk-percent">12%</span>
+          <div class="insight-card mint ig-l2">
+            <div class="insight-card-body">
+              <span class="insight-card-title">Glucose Improvement</span>
+              <span class="insight-card-desc">12% improvement in glucose control over last 3 months</span>
             </div>
-            <div class="risk-bar-track"><div class="risk-bar-fill risk-mint" style="width:12%"></div></div>
           </div>
-        </div>
-      </div>
-
-      <div class="panel">
-        <div class="group-label">Pattern Recognition &amp; Insights</div>
-
-        <div class="ai-insights-grid">
-          <div class="insight-cards">
-
-            <div class="insight-card mint">
-              <span class="insight-card-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg></span>
-              <div class="insight-card-body">
-                <span class="insight-card-title">Consistent medication adherence</span>
-                <span class="insight-card-desc">98% adherence rate over the last 90 days — strongly correlated with stabilized glucose readings.</span>
-              </div>
+          <div class="insight-card amber plain ig-r2">
+            <span class="insight-card-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M12 9v4M12 16.5v.01"/><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/></svg></span>
+            <div class="insight-card-body">
+              <span class="insight-card-title">Blood Pressure Monitoring</span>
+              <span class="insight-card-desc">Increase home monitoring frequency to daily</span>
             </div>
-
-            <div class="insight-card blue">
-              <span class="insight-card-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg></span>
-              <div class="insight-card-body">
-                <span class="insight-card-title">Activity correlates with sleep quality</span>
-                <span class="insight-card-desc">Days with more than 6,000 steps show 22% better sleep efficiency scores.</span>
-              </div>
-            </div>
-
-            <div class="insight-card amber">
-              <span class="insight-card-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M12 9v4M12 16.5v.01"/><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/></svg></span>
-              <div class="insight-card-body">
-                <span class="insight-card-title">Recurring late-evening glucose spikes</span>
-                <span class="insight-card-desc">Pattern detected on 4 of the last 7 evenings, typically 2–3 hours after dinner.</span>
-              </div>
-            </div>
-
           </div>
 
-          <div class="recommendations-panel">
-            <div class="group-label">AI Recommendations</div>
-
-            <div class="recommendation-item">
-              <span class="rec-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>
-              <span>Schedule a cardiology consultation within 2 weeks given elevated CVD risk markers.</span>
+          <div class="insight-card amber ig-l3">
+            <div class="insight-card-body">
+              <span class="insight-card-title">Lifestyle Factor</span>
+              <span class="insight-card-desc">Exercise frequency inversely related to glucose spikes</span>
             </div>
-            <div class="recommendation-item">
-              <span class="rec-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>
-              <span>Adjust evening meal composition to reduce late glucose spikes — consider a dietitian referral.</span>
-            </div>
-            <div class="recommendation-item">
-              <span class="rec-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>
-              <span>Continue the current medication regimen — adherence and outcomes are strongly correlated.</span>
-            </div>
-            <div class="recommendation-item">
-              <span class="rec-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>
-              <span>Re-screen the lipid panel in 90 days to confirm risk trend direction.</span>
+          </div>
+          <div class="insight-card blue plain ig-r3">
+            <span class="insight-card-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="5"/><circle cx="12" cy="12" r="1"/></svg></span>
+            <div class="insight-card-body">
+              <span class="insight-card-title">Lifestyle Intervention</span>
+              <span class="insight-card-desc">Structured exercise program may reduce medication needs</span>
             </div>
           </div>
         </div>
@@ -1009,7 +1027,7 @@ h1,h2,h3{ font-family:var(--font-display); font-weight:700; margin:0; }
               <span class="trend-score-label">Cardiovascular Risk</span>
               <span class="trend-score-value amber">42% · Moderate</span>
             </div>
-            <div class="risk-bar-track"><div class="risk-bar-fill risk-amber" style="width:42%"></div></div>
+            <div class="risk-bar-track"><div class="risk-bar-fill" style="width:42%"></div></div>
             <span class="trend-score-desc">Risk score has decreased 8 points since the last quarter, driven by improved lipid panel results.</span>
           </div>
 
@@ -1018,7 +1036,7 @@ h1,h2,h3{ font-family:var(--font-display); font-weight:700; margin:0; }
               <span class="trend-score-label">Diabetes Management</span>
               <span class="trend-score-value mint">68% · Good</span>
             </div>
-            <div class="risk-bar-track"><div class="risk-bar-fill risk-mint" style="width:68%"></div></div>
+            <div class="risk-bar-track"><div class="risk-bar-fill" style="width:68%"></div></div>
             <span class="trend-score-desc">HbA1c is trending toward target range; glycemic variability has decreased over the past 3 months.</span>
           </div>
 
@@ -1027,7 +1045,7 @@ h1,h2,h3{ font-family:var(--font-display); font-weight:700; margin:0; }
               <span class="trend-score-label">Overall Health</span>
               <span class="trend-score-value mint">74% · Good</span>
             </div>
-            <div class="risk-bar-track"><div class="risk-bar-fill risk-mint" style="width:74%"></div></div>
+            <div class="risk-bar-track"><div class="risk-bar-fill" style="width:74%"></div></div>
             <span class="trend-score-desc">Composite score reflecting vitals, lab trends, and medication adherence — up 5 points from the last assessment.</span>
           </div>
         </div>
